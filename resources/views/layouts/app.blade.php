@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <title>Movie App</title>
+    @livewireStyles
 </head>
 
 <body class="font-sans bg-gray-900 text-white">
@@ -23,7 +24,7 @@
 
                 <li class="md:ml-16 mt-3 md:mt-0">
                     <a href="{{ route('movies.index') }}" class="hover:text-gray-300">
-                        Films
+                        Films                         
                     </a>
                 </li>
 
@@ -41,15 +42,8 @@
             </ul>
 
             <div class="flex flex-col md:flex-row items-center">
-                <div class="relative mt-3 md:mt-0">
-                    <input type="text" class="bg-gray-800 text-sm rounded-full w-64 px-4 py-1 pl-8 focus:outline-none focus:shadow-outline" placeholder="Rechercher">
-
-                    <div class="absolute top-0">
-                        <svg class="w-4 text-gray-500 mt-2 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
-                    </div>
-                </div>
+                
+                <livewire:search-dropdown />
 
                 <div class="md:ml-4 mt-3 md:mt-0">
                     <a href="#">
@@ -63,5 +57,7 @@
     <main>
         @yield('content')
     </main>
+
+    @livewireScripts
 </body>
 </html>
