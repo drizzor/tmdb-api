@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ViewModels\MoviesViewModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -22,21 +23,23 @@ class MoviesController extends Controller
             ->get('https://api.themoviedb.org/3/movie/now_playing?language=fr-FR&region=FR')
             ->json()['results'];
 
-        $genresArray = Http::withToken(config('services.tmdb.token'))
+        $genres = Http::withToken(config('services.tmdb.token'))
             ->get('https://api.themoviedb.org/3/genre/movie/list?language=fr-FR')
             ->json()['genres'];
 
-        $genres = collect($genresArray)->mapWithKeys(function ($genre) {
-            return [$genre['id'] => $genre['name']];
-        });
+        // $genres = collect($genresArray)->mapWithKeys(function ($genre) {
+        //     return [$genre['id'] => $genre['name']];
+        // });
 
-        // dump($nowPlayingMovies); 
+        // dump($nowPlayingMovies);
+        
+        $moviesViewModel = new MoviesViewModel(
+            $popularMovies,
+            $nowPlayingMovies,
+            $genres,
+        );
 
-        return view('index', [
-            'popularMovies' => $popularMovies,
-            'nowPlayingMovies' => $nowPlayingMovies,
-            'genres' => $genres,
-        ]);
+        return view('index', $moviesViewModel);
     }
 
     /**
@@ -66,11 +69,12 @@ class MoviesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($movieId)
-    {
+    {        
         $movie = Http::withToken(config('services.tmdb.token'))
             ->get('https://api.themoviedb.org/3/movie/' . $movieId . '?language=fr-FR&append_to_response=credits,videos,images&include_image_language=null')
             ->json();
-
+        
+        abort_if(!isset($movie['id']), 404);
         // dump($movie);
 
         return view('show', [

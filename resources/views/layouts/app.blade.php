@@ -9,7 +9,12 @@
     <title>Movie App</title>
     @livewireStyles
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <script src="https://kit.fontawesome.com/9e89e3dc89.js" crossorigin="anonymous"></script>
 </head>
+
+<style>
+    [x-cloak] { display: none; }
+</style>
 
 <body class="font-sans bg-gray-900 text-white">
     <nav class="border-b border-gray-800 ">
