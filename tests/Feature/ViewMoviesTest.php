@@ -14,7 +14,7 @@ class ViewMoviesTest extends TestCase
     {
         Http::fake([
             'https://api.themoviedb.org/3/movie/popular?language=fr-FR' => $this->fakePopularMovies(),
-            'https://api.themoviedb.org/3/movie/now_playing?language=fr-FR&region=FR' => $this->fakeNowPlayingMovies(),
+            'https://api.themoviedb.org/3/movie/now_playing?language=fr-FR&region=FR,US' => $this->fakeNowPlayingMovies(),
             'https://api.themoviedb.org/3/genre/movie/list?language=fr-FR' => $this->fakeGenres(),
         ]);
 

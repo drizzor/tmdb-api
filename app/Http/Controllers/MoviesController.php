@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ViewModels\MoviesViewModel;
+use App\ViewModels\MovieViewModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -20,7 +21,7 @@ class MoviesController extends Controller
             ->json()['results'];
 
         $nowPlayingMovies = Http::withToken(config('services.tmdb.token'))
-            ->get('https://api.themoviedb.org/3/movie/now_playing?language=fr-FR&region=FR')
+            ->get('https://api.themoviedb.org/3/movie/now_playing?language=fr-FR&region=FR,US')
             ->json()['results'];
 
         $genres = Http::withToken(config('services.tmdb.token'))
@@ -77,9 +78,9 @@ class MoviesController extends Controller
         abort_if(!isset($movie['id']), 404);
         // dump($movie);
 
-        return view('show', [
-            'movie' => $movie,
-        ]);
+        $movieViewModel = new MovieViewModel($movie);
+
+        return view('show', $movieViewModel);
     }
 
     /**
