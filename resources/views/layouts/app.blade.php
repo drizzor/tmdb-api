@@ -41,7 +41,7 @@
                 </li>
 
                 <li class="md:ml-6 mt-3 md:mt-0">
-                    <a href="#" class="hover:text-gray-300">
+                    <a href="{{ route('actors.index') }}" class="hover:text-gray-300">
                         Acteurs
                     </a>
                 </li>
@@ -65,5 +65,6 @@
     </main>
 
     @livewireScripts
+        @yield('scripts')
 </body>
 </html>

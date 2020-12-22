@@ -27,12 +27,6 @@ class MoviesController extends Controller
         $genres = Http::withToken(config('services.tmdb.token'))
             ->get('https://api.themoviedb.org/3/genre/movie/list?language=fr-FR')
             ->json()['genres'];
-
-        // $genres = collect($genresArray)->mapWithKeys(function ($genre) {
-        //     return [$genre['id'] => $genre['name']];
-        // });
-
-        // dump($nowPlayingMovies);
         
         $moviesViewModel = new MoviesViewModel(
             $popularMovies,
@@ -40,28 +34,7 @@ class MoviesController extends Controller
             $genres,
         );
 
-        return view('index', $moviesViewModel);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        return view('movies.index', $moviesViewModel);
     }
 
     /**
@@ -76,44 +49,9 @@ class MoviesController extends Controller
             ->json();
         
         abort_if(!isset($movie['id']), 404);
-        // dump($movie);
 
         $movieViewModel = new MovieViewModel($movie);
 
-        return view('show', $movieViewModel);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return view('movies.show', $movieViewModel);
     }
 }
