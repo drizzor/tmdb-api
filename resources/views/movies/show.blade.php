@@ -93,12 +93,12 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
                 @forelse ($movie['head_cast'] as $actor)
                     <div class="mt-8">
-                        <a href="#">
+                        <a href="{{ route('actors.show', $actor['id']) }}">
                             <img src="{{ $actor['profile_path'] }}" alt="actor" class="hover:opacity-75 transition ease-in-out duration-150">
                         </a>
 
                         <div class="mt-2">
-                            <a href="#" class="text-lg mt-2 hover:text-gray:300">
+                            <a href="{{ route('actors.show', $actor['id']) }}" class="text-lg mt-2 hover:text-gray:300">
                                 {{ $actor['name'] }}
                             </a>
 
@@ -130,11 +130,11 @@
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4" x-show="isOpen" x-cloak>
                         @foreach ($movie['secondary_cast'] as $actor)
                             <div class="mt-5 flex flex-col">
-                                <a href="#" class="hover:opacity-75 transition ease-in-out duration-150">
+                                <a href="{{ route('actors.show', $actor['id']) }}" class="hover:opacity-75 transition ease-in-out duration-150">
                                     <img src="{{ $actor['profile_path'] }}"  class="w-8" alt="actor">
                                 </a>
                                                                 
-                                <a href="#" class="text-lg hover:text-gray-300">
+                                <a href="{{ route('actors.show', $actor['id']) }}" class="text-lg hover:text-gray-300">
                                     {{ $actor['name'] }}
                                 </a>
 
