@@ -67,10 +67,10 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
                     @foreach ($actor['known_for'] as $artwork)
                         <div class="mt-4">
-                            <a href="{{ route('movies.show', $artwork['id']) }}">
+                            <a href="{{ $artwork['url'] }}">
                                 <img src="{{ $artwork['poster_path'] }}" alt="poster" class="hover:opacity-75 transition ease-in-out duration-150">
                             </a>
-                            <a href="{{ route('movies.show', $artwork['id']) }}" class="text-sm leading-normal block text-gray-400 hover:text-white mt-1">
+                            <a href="{{ $artwork['url'] }}" class="text-sm leading-normal block text-gray-400 hover:text-white mt-1">
                                 {{ $artwork['title'] }}
                             </a>
                         </div>
@@ -88,11 +88,11 @@
             </h2>  
             <ul class="list-disc leading-loose pl-5 mt-8">
                 @forelse ($actor['credits'] as $credit)
-                    {{-- @if ($credit['release_year']) --}}
-                        <li>
+                    <li>
+                        <a href="{{ $credit['url'] }}">
                             {{ $credit['release_year'] }} &middot; <b>{{ $credit['title'] }}</b> en tant que {{ $credit['character'] }} - {{ $credit['media'] }}
-                        </li>
-                    {{-- @endif                     --}}
+                        </a>
+                    </li>
                 @empty
                     Aucune filmographie
                 @endforelse
@@ -100,24 +100,29 @@
         </div>
     </div> <!-- end credits info -->
 
-    {{-- <div class="movie-images" x-data="{ isOpen: false, image: '' }">
+    <div class="movie-images" x-data="{ isOpen: false, image: '' }">
         <div class="container mx-auto px-4 py-16">
             <h2 class="text-4xl font-semibold">
                 Images    
             </h2>  
 
-            <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="mt-8">
-                    <a 
-                        href="#" 
-                        @click.prevent="
-                            isOpen = true
-                            image = 'https://image.tmdb.org/t/p/w500/3JTEc2tGUact9c0WktvpeJ9pajn.jpg'
-                        "
-                    >
-                        <img src="https://image.tmdb.org/t/p/w500/3JTEc2tGUact9c0WktvpeJ9pajn.jpg" alt="actor image" class="hover:opacity-75 transition ease-in-out duration-150">
-                    </a>
-                </div>                    
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+                @forelse ($actor['images'] as $image)
+                    <div class="mt-8">
+                        <a 
+                            href="#" 
+                            @click.prevent="
+                                isOpen = true
+                                image = '{{ $image['file_path_zoom'] }}'
+                            "
+                        >
+                            <img src="{{ $image['file_path'] }}" alt="actor image" class="hover:opacity-75 transition ease-in-out duration-150">
+                        </a>
+                    </div>  
+                @empty
+                    <p>Aucune Image</p>
+                @endforelse
+                                   
             </div> 
 
             <div style="background-color: rgba(0, 0, 0, .9);" class="fixed top-0 left-0 w-full h-full flex items-center shadow-lg overflow-y-auto" 
@@ -141,5 +146,5 @@
                 </div>
             </div>
         </div>
-    </div> <!-- end images gallery --> --}}
+    </div> <!-- end images gallery -->
 @endsection

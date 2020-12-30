@@ -38,16 +38,22 @@ class ActorViewModel extends ViewModel
             'twitter' => $this->actor['external_ids']['twitter_id'] 
                 ? 'https://twitter.com/' . $this->actor['external_ids']['twitter_id']
                 : '',
-            'known_for' => collect($this->actor['combined_credits']['cast'])->where('media_type', 'movie')/*->union(
-                collect($this->actor['combined_credits']['cast'])->where('media_type', 'tv')
-            )*/->sortByDesc('polularity')->take(5)->map(function ($movie){
+
+            'known_for' => collect($this->actor['combined_credits']['cast'])                
+                ->where('media_type', 'movie')->union(
+                    collect($this->actor['combined_credits']['cast'])->where('media_type', 'tv')                    
+                )->map(function ($movie){
                 return collect($movie)->merge([
                     'poster_path' => $movie['poster_path'] 
                         ? 'https://image.tmdb.org/t/p/w185/' . $movie['poster_path']
                         : 'https://via.placeholder.com/185x278/1F2937/FFFFFF?text=No+Image',
-                    'title' => isset($movie['title']) ? $movie['title'] : 'Untitled'
-                ])->only(['id', 'poster_path', 'title']);               
-            }),  
+                    'title' => isset($movie['title']) ? $movie['title'] : $movie['name'],
+                    'url' => $movie['media_type'] == "movie"
+                        ? route('movies.show', $movie['id'])
+                        : route('tv.show', $movie['id']),
+                ])->only(['id', 'poster_path', 'title', 'popularity', 'media_type', 'url']);               
+            })->sortByDesc("popularity")->take(5),  
+
             'credits' => collect($this->actor['combined_credits']['cast'])->map(function ($movie){
                 if (isset($movie['release_date'])) 
                     $releaseDate = $movie['release_date'];
@@ -62,9 +68,19 @@ class ActorViewModel extends ViewModel
                         : 'Futur',                        
                     'title' => isset($movie['title']) ? $movie['title'] : $movie['name'],
                     'character' => isset($movie['character']) ? $movie['character'] : '/',
-                    'media' => $movie['media_type'] == 'movie' ? 'Film' : 'Série'
-                ])->only(['release_date', 'release_year', 'title', 'character', 'media']);               
-            })->sortByDesc('release_year'),          
+                    'media' => $movie['media_type'] == 'movie' ? 'Film' : 'Série',
+                    'url' => $movie['media_type'] == 'movie' 
+                        ? route('movies.show', $movie['id']) 
+                        : route('tv.show', $movie['id']),
+                ])->only(['release_date', 'release_year', 'title', 'character', 'media', 'url', 'id']);               
+            })->sortByDesc('release_year'),   
+            
+            'images' => collect($this->actor['images']['profiles'])->map(function ($image){
+                return collect($image)->merge([
+                    'file_path' => 'https://image.tmdb.org/t/p/w220_and_h330_face' . $image['file_path'],
+                    'file_path_zoom' => 'https://image.tmdb.org/t/p/w500' .  $image['file_path'] 
+                ]);
+            })->take(15),
         ]);
     }
 }
