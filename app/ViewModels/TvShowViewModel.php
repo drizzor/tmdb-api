@@ -19,6 +19,13 @@ class TvShowViewModel extends ViewModel
         $total_cast = count($this->tvshow['credits']['cast']);
         $total_secondary_cast = ($total_cast > 10) ? $total_cast - 10 : 0;
 
+        if($this->tvshow['status'] == 'Canceled')
+            $status = 'Annulée';
+        elseif($this->tvshow['status'] == 'Returning Series')
+            $status = "En cours";
+        else 
+            $status = "Terminée";
+
         return collect($this->tvshow)->merge([
             'poster_path' => $this->tvshow['poster_path']
                 ? 'https://image.tmdb.org/t/p/w500/' . $this->tvshow['poster_path']
@@ -36,9 +43,7 @@ class TvShowViewModel extends ViewModel
                 ? collect($this->tvshow['genres'])->take(3)->pluck('name')->implode(', ')
                 : '-',
 
-            'status' => $this->tvshow['status'] == 'Returning Series'
-                ? 'En cours'
-                : 'Terminée',
+            'status' => $status,
 
             'episode_run_time' => $this->tvshow['episode_run_time']
                 ? $this->tvshow['episode_run_time'][0] . ' min'
@@ -76,8 +81,7 @@ class TvShowViewModel extends ViewModel
                         ? Carbon::parse($season['air_date'])->format('d M, Y')
                         : null,
                 ]);
-            }),
-                
+            }),                
 
             'images' => collect($this->tvshow['images']['backdrops'])->map(function ($image){
                 return collect($image)->merge([

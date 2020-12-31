@@ -52,7 +52,7 @@ class ActorViewModel extends ViewModel
                         ? route('movies.show', $movie['id'])
                         : route('tv.show', $movie['id']),
                 ])->only(['id', 'poster_path', 'title', 'popularity', 'media_type', 'url']);               
-            })->sortByDesc("popularity")->take(5),  
+            })->unique('id')->sortByDesc("popularity")->take(5),  
 
             'credits' => collect($this->actor['combined_credits']['cast'])->map(function ($movie){
                 if (isset($movie['release_date'])) 

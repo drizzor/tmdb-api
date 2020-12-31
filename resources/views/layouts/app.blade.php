@@ -29,19 +29,19 @@
                 </li>
 
                 <li class="md:ml-16 mt-3 md:mt-0">
-                    <a href="{{ route('movies.index') }}" class="hover:text-gray-300">
+                    <a href="{{ route('movies.index') }}" class="hover:text-gray-300 {{ request()->routeIs('movies.*') ? 'text-yellow-500 font-semibold' : ''}}">
                         Films                         
                     </a>
                 </li>
 
                 <li class="md:ml-6 mt-3 md:mt-0">
-                    <a href="{{ route('tv.index') }}" class="hover:text-gray-300">
+                    <a href="{{ route('tv.index') }}" class="hover:text-gray-300 {{ request()->routeIs('tv.*') ? 'text-yellow-500 font-semibold' : ''}}">
                         Séries
                     </a>
                 </li>
 
                 <li class="md:ml-6 mt-3 md:mt-0">
-                    <a href="{{ route('actors.index') }}" class="hover:text-gray-300">
+                    <a href="{{ route('actors.index') }}" class="hover:text-gray-300 {{ request()->routeIs('actors.*') ? 'text-yellow-500 font-semibold' : ''}}">
                         Acteurs
                     </a>
                 </li>

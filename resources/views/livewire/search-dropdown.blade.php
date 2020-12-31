@@ -37,15 +37,13 @@
                 <ul>
                     @foreach ($searchResults as $result)
                         <li class="border-b border-gray-700">
-                            <a href="{{ route('movies.show', $result['id']) }}" 
+                            <a href="{{ $result['url'] }}" 
                                 class="hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-1 focus:ring-yellow-400 px-3 py-3 flex items-center"
                                 @if ($loop->last) @keydown.tab="isOpen = false" @endif
                             >
-                                @if ($result['poster_path'])
-                                    <img class="w-8" src="https://image.tmdb.org/t/p/w92/{{ $result['poster_path'] }}" alt="poster">
-                                @else 
-                                    <img class="w-8" src="https://via.placeholder.com/50x75?text=No+Image" alt="poster">
-                                @endif
+
+                                <img class="w-8" src="{{ $result['poster'] }}" alt="poster">
+
                                 <span class="ml-4">{{ $result['title'] }}</span> 
                             </a>
                         </li>
